@@ -222,5 +222,3 @@ the audit log append-only at the permission level, and keep secrets in a manager
 Postgres; a real migration tool; a load test of concurrent rooms. For the UI, a proper frontend with presence
 ("bob is looking at #3") and optimistic updates. Sending should go through an outbox with idempotency keys to the
 ESP.
-#   w o r k f l o w - r o o m  
- 
