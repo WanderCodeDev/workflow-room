@@ -1,0 +1,43 @@
+{
+  "name": "prospect-room",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A shared room where humans and an agent prospect together: Apollo search -> enrich -> draft -> human review, all state in Postgres.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "db:up": "docker compose up -d --wait",
+    "db:down": "docker compose down",
+    "db:local": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/pg-local.ps1 start",
+    "db:local:stop": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/pg-local.ps1 stop",
+    "db:migrate": "node --import tsx src/migrate.ts",
+    "start": "node --import tsx src/main.ts",
+    "cli": "node --import tsx src/cli.ts",
+    "apollo:check": "node --import tsx src/agent/apollo-check.ts",
+    "fake-apollo": "node --import tsx test/fake-apollo.ts",
+    "linkedin:login": "node --import tsx src/agent/linkedin-login.ts",
+    "linkedin:check": "node --import tsx src/agent/linkedin-check.ts",
+    "typecheck": "tsc --noEmit",
+    "test:race": "node --import tsx test/race.test.ts",
+    "test:crash": "node --import tsx test/crash.test.ts",
+    "test:ratelimit": "node --import tsx test/ratelimit.test.ts",
+    "test:linkedin": "node --import tsx test/linkedin.test.ts",
+    "test:queue": "node --import tsx test/queue.test.ts",
+    "test": "npm run typecheck && npm run test:queue && npm run test:race && npm run test:ratelimit && npm run test:crash && npm run test:linkedin"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.126.0",
+    "dotenv": "^17.4.2",
+    "pg": "^8.23.0",
+    "playwright": "^1.63.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.3",
+    "@types/pg": "^8.23.1",
+    "tsx": "^4.23.13",
+    "typescript": "^5.9.3"
+  }
+}

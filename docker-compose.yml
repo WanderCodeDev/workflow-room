@@ -1,0 +1,21 @@
+# Cross-platform Postgres for the project: `npm run db:up` (Windows without Docker: `npm run db:local`).
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: prospect_room
+      POSTGRES_HOST_AUTH_METHOD: trust # local development only
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+      - ./db/docker-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d prospect_room"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  pgdata:
